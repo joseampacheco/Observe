@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8 /><title>JS Bin</title>
+</head><body>
+  Nome: <input type=text id=nome data-bind=user.nome><br>
+  Sobrenome: <input type=text id=lastName data-bind=user.lastName><br>
+  Nascimento: <input type=text id=birth data-bind=user.birth><br>
+  Menu: <input type=text id="processo" data-bind=menu.nome><br>
+  Descrição: <input type=text id="tip" data-bind=menu.tip>
+<script>
+var Observe = function(objID){
+	var tID = setInterval(function() {observe(objID)}, 1000, "JavaScript");
+	return this.timerID = tID;
+	function observe(objID) {
+		var id = objID + "_copyOf_";
+		if (!window[id]) window[id] = {}; 
+		for (var p in window[objID]) {
+			if ((!window[id][p]) || (window[id][p] !== window[objID][p])) {
+				window[id][p] = window[objID][p];
+				var els = document.querySelectorAll("[data-bind='" + objID + "." + p + "']");
+				for (var i = 0; i < els.length; i++) {
+					if (els[i].value != window[objID][p]) els[i].value = window[objID][p];} } }
+	}	
+}
+
+
+var user={nome: "José A M ", lastName: "Pacheco", birth: "27/06/1951"};
+var menu={nome: "Processo", tip: "Abertura e alteração de Processo"}
+var oUser = new Observe("user");
+var oMenu = new Observe("menu");
+</script>
+</body></html>
